@@ -1,19 +1,9 @@
 import * as express from 'express';
 import helmet = require('helmet');
-import { createLogger, format, transports } from 'winston';
 
-import { config } from './common';
+import { config, getLogger } from './common';
 
-const logger = createLogger({
-  format: format.combine(
-    format.timestamp(),
-    format.splat(),
-    format.json(),
-    format.prettyPrint({ colorize: true, depth: 10 }),
-  ),
-  defaultMeta: { serviceId: config.serviceId },
-  transports: [new transports.Console()],
-});
+const logger = getLogger('bootstrap');
 
 async function bootstrap(): Promise<void> {
   const app = express().use(helmet());
